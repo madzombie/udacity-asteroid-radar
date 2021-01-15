@@ -8,7 +8,7 @@ import com.udacity.asteroidradar.Asteroid
 @Dao
 interface AstroidDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(asteroid: Asteroid)
+     fun insert(asteroid: Asteroid)
 
     @Update
     suspend fun update(asteroid: Asteroid)
