@@ -22,6 +22,11 @@ private val retrofit = Retrofit.Builder()
     .baseUrl(Constants.BASE_URL)
     .build()
 
+
+private val retrofitImg = Retrofit.Builder()
+    .addConverterFactory(ScalarsConverterFactory.create())
+    .baseUrl(Constants.BASE_URL)
+    .build()
 private val retroImage = Retrofit.Builder()
     .addConverterFactory(MoshiConverterFactory.create(moshi))
     .baseUrl(Constants.BASE_URL)
@@ -42,6 +47,9 @@ interface AstroidApiService {
 // created public retrofit object, we will call the object in viewModel
 object AstroidApi {
     val retrofitService: AstroidApiService by lazy {
+        retrofit.create(AstroidApiService::class.java)
+    }
+    val retroFitImgService: AstroidApiService by lazy {
         retrofit.create(AstroidApiService::class.java)
     }
 }

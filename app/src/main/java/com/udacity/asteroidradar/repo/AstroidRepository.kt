@@ -1,12 +1,16 @@
 package com.udacity.asteroidradar.repo
 
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.Transformations
 import com.udacity.asteroidradar.Asteroid
 import com.udacity.asteroidradar.Constants
 import com.udacity.asteroidradar.api.AstroidApi
 import com.udacity.asteroidradar.api.AstroidApiService
 import com.udacity.asteroidradar.api.parseAsteroidsJsonResult
+import com.udacity.asteroidradar.asAstroidEntity
 import com.udacity.asteroidradar.database.AstroidDatabase
+import com.udacity.asteroidradar.database.AstroidEntity
+import com.udacity.asteroidradar.database.convertToAstroifDataClass
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.json.JSONObject
@@ -15,9 +19,15 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 class AstroidRepository(private val db:AstroidDatabase) {
-    var todayAstroid:LiveData<List<Asteroid>> = db.asteroidDao.getAstroidToday(getToday())
-    var AstroidWeekly:LiveData<List<Asteroid>> = db.asteroidDao.getAstroidWeek(getToday(),getDaysLater(7))
-    var allAstroid:LiveData<List<Asteroid>> = db.asteroidDao.getAllAstroid()
+    var todayAstroid:LiveData<List<Asteroid>> = Transformations.map(db.asteroidDao.getAstroidToday(getToday())) {
+        it.convertToAstroifDataClass()
+    }
+    var AstroidWeekly:LiveData<List<Asteroid>> = Transformations.map(db.asteroidDao.getAstroidWeek(getToday(),getDaysLater(7))){
+        it.convertToAstroifDataClass()
+    }
+    var allAstroid:LiveData<List<Asteroid>> = Transformations.map(db.asteroidDao.getAllAstroid()){
+        it.convertToAstroifDataClass()
+    }
 
     private fun getToday(): String {
         val calendar = Calendar.getInstance()
@@ -39,12 +49,13 @@ class AstroidRepository(private val db:AstroidDatabase) {
         withContext(Dispatchers.IO) {
 
             val res =AstroidApi.retrofitService.getProperty(getToday(),getDaysLater(Constants.DEFAULT_END_DATE_DAYS),Constants.api_key)
-           val parse = parseAsteroidsJsonResult(JSONObject( res))
-            insertToDB(parse)
+            val parse = parseAsteroidsJsonResult(JSONObject( res))
+
+            insertToDB(parse.asAstroidEntity())
         }
     }
 
-    private suspend fun insertToDB (astroids:ArrayList<Asteroid>) {
+    private suspend fun insertToDB (astroids:List<AstroidEntity>) {
         for (item in astroids) {
             db.asteroidDao.insert(item)
         }

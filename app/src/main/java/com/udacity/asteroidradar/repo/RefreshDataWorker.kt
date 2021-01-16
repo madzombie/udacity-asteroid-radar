@@ -7,10 +7,10 @@ import com.udacity.asteroidradar.database.AstroidDatabase
 import retrofit2.HttpException
 
 
-class LoadWorker (context: Context,params:WorkerParameters):
+class RefreshDataWorker (context: Context, params:WorkerParameters):
     CoroutineWorker(context,params) {
     companion object {
-        const val WORK_NAME="LoadWorker"
+        const val WORK_NAME="RefreshDataWorker"
     }
     override suspend fun doWork():Result {
         val dbName= AstroidDatabase.getInstance(applicationContext)
