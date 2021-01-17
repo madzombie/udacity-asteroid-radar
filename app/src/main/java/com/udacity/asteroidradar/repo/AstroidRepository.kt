@@ -3,9 +3,9 @@ package com.udacity.asteroidradar.repo
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
 import com.udacity.asteroidradar.Asteroid
+import com.udacity.asteroidradar.BuildConfig
 import com.udacity.asteroidradar.Constants
 import com.udacity.asteroidradar.api.AstroidApi
-import com.udacity.asteroidradar.api.AstroidApiService
 import com.udacity.asteroidradar.api.parseAsteroidsJsonResult
 import com.udacity.asteroidradar.asAstroidEntity
 import com.udacity.asteroidradar.database.AstroidDatabase
@@ -16,7 +16,6 @@ import kotlinx.coroutines.withContext
 import org.json.JSONObject
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.collections.ArrayList
 
 class AstroidRepository(private val db:AstroidDatabase) {
     var todayAstroid:LiveData<List<Asteroid>> = Transformations.map(db.asteroidDao.getAstroidToday(getToday())) {
@@ -48,7 +47,8 @@ class AstroidRepository(private val db:AstroidDatabase) {
     suspend fun insertAstroidFromNet() {
         withContext(Dispatchers.IO) {
 
-            val res =AstroidApi.retrofitService.getProperty(getToday(),getDaysLater(Constants.DEFAULT_END_DATE_DAYS),Constants.api_key)
+            val res =AstroidApi.retrofitService.getProperty(getToday(),getDaysLater(Constants.DEFAULT_END_DATE_DAYS),
+                BuildConfig.NASA_API_KEY)
             val parse = parseAsteroidsJsonResult(JSONObject( res))
 
             insertToDB(parse.asAstroidEntity())

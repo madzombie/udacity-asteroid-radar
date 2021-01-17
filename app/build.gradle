@@ -16,10 +16,16 @@ android {
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
+
     buildTypes {
+
         release {
+            buildConfigField 'String','NASA_API_KEY',myApiNasa
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+        debug{
+            buildConfigField 'String','NASA_API_KEY',myApiNasa
         }
     }
 
@@ -28,6 +34,7 @@ android {
 
     }
     buildFeatures {
+        buildConfig true
         dataBinding true
     }
     compileOptions {

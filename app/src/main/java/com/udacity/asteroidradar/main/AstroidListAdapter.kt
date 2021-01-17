@@ -1,17 +1,14 @@
 package com.udacity.asteroidradar.main
 
-import android.content.DialogInterface
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import androidx.recyclerview.widget.ListAdapter
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.udacity.asteroidradar.Asteroid
 import com.udacity.asteroidradar.R
 import com.udacity.asteroidradar.databinding.AdtroidListItemBinding
-import java.text.FieldPosition
 
 class AstroidListAdapter(val clickListener: OnClickListener): ListAdapter<Asteroid, AstroidListAdapter.ViewHolder>(DiffClass()) {
     class ViewHolder(private var binding:AdtroidListItemBinding): RecyclerView.ViewHolder(binding.root) {

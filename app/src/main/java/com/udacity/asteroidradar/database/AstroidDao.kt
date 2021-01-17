@@ -1,10 +1,10 @@
 package com.udacity.asteroidradar.database
 
-import androidx.lifecycle.LifecycleService
 import androidx.lifecycle.LiveData
-import androidx.room.*
-import androidx.room.OnConflictStrategy.REPLACE
-import com.udacity.asteroidradar.Asteroid
+import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
+import androidx.room.Query
 
 @Dao
 interface AstroidDao {
@@ -23,7 +23,5 @@ interface AstroidDao {
     @Query("SELECT * FROM ASTROID_TABLE where closeApproachDate between :startDay and :endDay order by closeApproachDate desc")
      fun getAstroidWeek(startDay: String,endDay: String):LiveData<List<AstroidEntity>>
 
-    @Query("DELETE FROM ASTROID_TABLE")
-     fun clear()
 
 }
