@@ -6,6 +6,7 @@ import com.udacity.asteroidradar.Asteroid
 import com.udacity.asteroidradar.Constants
 import com.udacity.asteroidradar.PictureOfDay
 import com.udacity.asteroidradar.api.AstroidApi.retrofitService
+import com.udacity.asteroidradar.api.AstroidApi.retroFitImgService
 import com.udacity.asteroidradar.api.AstroidApiService
 import com.udacity.asteroidradar.database.AstroidDatabase
 import com.udacity.asteroidradar.repo.AstroidRepository
@@ -65,6 +66,7 @@ class MainViewModel (application: Application): AndroidViewModel(application) {
                 val pic = retrofitService.getPicOfDay(Constants.api_key)
                 _image.value=pic
             } catch (e:Exception){
+                _image.value= PictureOfDay("","","")
                 e.printStackTrace()
 
             }

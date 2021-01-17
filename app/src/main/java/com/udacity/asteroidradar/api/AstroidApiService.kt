@@ -25,6 +25,7 @@ private val retrofit = Retrofit.Builder()
 
 private val retrofitImg = Retrofit.Builder()
     .addConverterFactory(ScalarsConverterFactory.create())
+    .addConverterFactory(MoshiConverterFactory.create(moshi))
     .baseUrl(Constants.BASE_URL)
     .build()
 private val retroImage = Retrofit.Builder()

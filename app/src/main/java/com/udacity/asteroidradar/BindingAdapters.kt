@@ -1,5 +1,6 @@
 package com.udacity.asteroidradar
 
+import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.ProgressBar
@@ -10,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.udacity.asteroidradar.main.AstroidListAdapter
 import com.udacity.asteroidradar.main.AsteroidApiStatus
+import coil.api.load
 
 @BindingAdapter("statusIcon")
 fun bindAsteroidStatusImage(imageView: ImageView, isHazardous: Boolean) {
@@ -57,6 +59,8 @@ fun bindRecyclerView(recyclerView: RecyclerView, data: List<Asteroid>?) {
 @BindingAdapter("imageUrl")
 fun bindImage(imgView: ImageView, imgUrl: String?) {
     imgUrl?.let {
+
+        Log.d("imgUrl",imgUrl)
         val imgUri = imgUrl.toUri().buildUpon().scheme("https").build()
         Glide.with(imgView.context)
             .load(imgUri)
@@ -75,3 +79,25 @@ fun bindStatus(progressBar: ProgressBar, status: AsteroidApiStatus?) {
         }
     }
 }
+
+@BindingAdapter("imageOfTheDayContentDesc")
+fun ImageView.imageOfTheDayContentDescription(pictureOfDay: PictureOfDay?){
+
+    val isImage = (pictureOfDay?.mediaType.equals("image"))
+
+    when(isImage){
+
+        true -> {
+            this.contentDescription = resources.getString(R.string
+                .nasa_picture_of_day_content_description_format, pictureOfDay?.title)
+        }
+
+        false -> {
+
+            this.contentDescription   =  resources.getString(R.string.this_is_nasa_s_picture_of_day_showing_nothing_yet,)
+        }
+    }
+
+
+}
+
