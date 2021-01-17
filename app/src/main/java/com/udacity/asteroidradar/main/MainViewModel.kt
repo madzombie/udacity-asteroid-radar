@@ -48,10 +48,10 @@ class MainViewModel (application: Application): AndroidViewModel(application) {
     private val _databaseAsteroidList = MutableLiveData<ApiFilter>(ApiFilter.WEEK)
     val databaseAsteroidList = Transformations.switchMap(_databaseAsteroidList) { range->
         when(range) {
-            ApiFilter.WEEK->{repo.AstroidWeekly}
-            ApiFilter.DAY->{repo.todayAstroid}
-            ApiFilter.ALL->{repo.allAstroid}
-            else-> MutableLiveData(emptyList())
+
+            ApiFilter.DAY->repo.todayAstroid
+            ApiFilter.ALL->repo.allAstroid
+            else-> repo.AstroidWeekly
         }
     }
 
