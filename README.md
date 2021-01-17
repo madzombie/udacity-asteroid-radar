@@ -1,8 +1,10 @@
 # Attention
 
-need to replace key value under the gradle.properties;
+need to replace key value under the 
+gradle.properties;
+```
 myApiNasa="<key>"
-
+```
 
 ## Note: Android Kotlin Gradle Update
 Use the updated Gradle version in the `~/gradle/wrapper/gradle-wrapper.properties` file:
