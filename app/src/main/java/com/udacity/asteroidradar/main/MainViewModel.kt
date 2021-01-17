@@ -12,6 +12,7 @@ import com.udacity.asteroidradar.repo.AstroidRepository
 import kotlinx.coroutines.launch
 import java.lang.Exception
 
+
 enum class AsteroidApiStatus {LOADING, ERROR, DONE}
 enum class ApiFilter { WEEK, DAY, ALL }
 
@@ -25,7 +26,9 @@ class MainViewModel (application: Application): AndroidViewModel(application) {
 
     val navigateToSelectedAsteroid : LiveData<Asteroid>
         get() = _navigateToSelectedAsteroid
-    private val database = AstroidDatabase.getInstance(application)
+   // private val database = AstroidDatabase.getInstance(application)
+    private val database = AstroidDatabase.getDatabase(application)
+
     private  val repo = AstroidRepository(database)
 
     private val _status = MutableLiveData<AsteroidApiStatus>()

@@ -12,19 +12,34 @@ abstract class AstroidDatabase :RoomDatabase(){
 
     companion object {
         @Volatile
-        private lateinit var  INSTANCE: AstroidDatabase
-            fun getInstance (context: Context):AstroidDatabase{
-                synchronized(this) {
-                    var instance= INSTANCE
-                    if (instance==null) {
-                        instance= Room.databaseBuilder(context.applicationContext,AstroidDatabase::class.java,
-                        "astroid_history_database").fallbackToDestructiveMigration().build()
-                        INSTANCE=instance
-                    }
-                    return instance
+        private lateinit var INSTANCE: AstroidDatabase
+        fun getInstance(context: Context): AstroidDatabase {
+            synchronized(this) {
+                var instance = INSTANCE
+                if (instance == null) {
+                    instance = Room.databaseBuilder(
+                        context.applicationContext, AstroidDatabase::class.java,
+                        "astroid_history_database"
+                    ).fallbackToDestructiveMigration().build()
+                    INSTANCE = instance
+                }
+                return instance
+            }
+        }
+
+
+        fun getDatabase(context: Context): AstroidDatabase {
+            synchronized(AstroidDatabase::class.java) {
+                if (!::INSTANCE.isInitialized) {
+                    INSTANCE = Room.databaseBuilder(
+                        context.applicationContext,
+                        AstroidDatabase::class.java,
+                        "asteroids"
+                    ).build()
                 }
             }
-
+            return INSTANCE
+        }
     }
 
 }
