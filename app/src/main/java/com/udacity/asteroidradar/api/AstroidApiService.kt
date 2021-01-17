@@ -19,6 +19,7 @@ private val moshi = Moshi.Builder()
 // define a builded Retrofit object
 private val retrofit = Retrofit.Builder()
     .addConverterFactory(ScalarsConverterFactory.create())
+    .addConverterFactory(MoshiConverterFactory.create(moshi))
     .baseUrl(Constants.BASE_URL)
     .build()
 
